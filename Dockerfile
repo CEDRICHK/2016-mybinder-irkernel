@@ -1,4 +1,4 @@
-FROM jupyter/r-notebook:c3772fffc4aa4
+FROM jupyter/r-notebook:3772fffc4aa4
 
 # Install R
 USER root
