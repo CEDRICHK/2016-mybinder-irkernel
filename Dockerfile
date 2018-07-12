@@ -3,6 +3,8 @@ FROM andrewosh/binder-base
 USER root
 WORKDIR /tmp
 
+COPY install-irkernel.R /tmp/install-irkernel.R
+
 # Add R dependencies
 RUN apt-get update
 RUN apt-get install -y --no-install-recommends r-base \
@@ -12,9 +14,7 @@ RUN apt-get install -y --no-install-recommends r-base \
             
     R --no-save < /tmp/install_irkernel.R && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-COPY install-irkernel.R /tmp/install-irkernel.R
-
+    
 RUN R --no-save < /tmp/install-irkernel.R
 
 WORKDIR $DOCKER_HOME
