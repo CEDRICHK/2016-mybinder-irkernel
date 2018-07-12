@@ -1,4 +1,4 @@
-FROM compdatasci/base
+FROM andrewosh/binder-base
 
 # Install R
 USER root
