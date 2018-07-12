@@ -1,6 +1,6 @@
 # Running R inside of Jupyter on mybinder.org
 
-[![Binder](http://mybinder.org/badge.svg)](http://mybinder.org/repo/ctb/2016-mybinder-irkernel)
+[![Binder](https://mybinder.org/badge.svg)](https://mybinder.org/v2/gh/CEDRICHK/2016-mybinder-irkernel/master?filepath=index.ipynb)
 
 Here, the Dockerfile installs the 'irkernel' into Jupyter, enabling R
 notebooks; see [the index notebook](index.ipynb).
