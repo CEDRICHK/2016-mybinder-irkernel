@@ -12,7 +12,7 @@ RUN apt-get install -y --no-install-recommends r-base \
             libcairo2-dev \
             libcurl4-openssl-dev && \
             
-    R --no-save < /tmp/install_irkernel.R && \
+    R --no-save < /tmp/install-irkernel.R && \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
     
 RUN R --no-save < /tmp/install-irkernel.R
