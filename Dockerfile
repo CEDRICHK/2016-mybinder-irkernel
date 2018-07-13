@@ -15,7 +15,7 @@ WORKDIR ${HOME}
 
 USER root
 COPY . ${HOME}
-RUN chown -R ${NB_USER} ${HOME}
+RUN chown -R ${NB_UID} ${HOME}
 USER ${NB_USER}
 
 CMD jupyter notebook --ip 0.0.0.0
