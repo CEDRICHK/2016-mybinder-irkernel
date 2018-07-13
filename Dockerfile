@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y python2.7 python-pip && rm -rf /var/lib
 RUN pip2 install jupyter
 
 ENV LANG en_US.UTF-8
-ENV NB_USER jovyan
+ENV NB_USER CEDRICHK
 ENV NB_UID 1000
 ENV HOME /home/${NB_USER}
 
