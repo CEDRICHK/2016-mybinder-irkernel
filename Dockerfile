@@ -1,21 +1,10 @@
-FROM ubuntu:xenial
+FROM rocker/binder:3.4.2
 
-# Install all necessary Ubuntu packages
-RUN apt-get update && apt-get install -y python2.7 python-pip && rm -rf /var/lib/apt/lists/* \
-
-# Install Jupyter notebook
-RUN pip2 install jupyter
-
-ENV LANG en_US.UTF-8
-ENV NB_USER CEDRICHK
-ENV NB_UID 1000
-ENV HOME /home/${NB_USER}
-
-WORKDIR ${HOME}
-
+# Copy repo into ${HOME}, make user own $HOME
 USER root
 COPY . ${HOME}
-RUN chown -R ${NB_UID} ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
 
-CMD jupyter notebook --ip 0.0.0.0
+## run any install.R script we find
+RUN if [ -f install.R ]; then R --quiet -f install.R; fi
