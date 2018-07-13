@@ -3,7 +3,7 @@ FROM rocker/tidyverse:3.4.2
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
     apt-get -y install python3-pip && \
-    pip3 install notebook==5.2 && \
+    pip3 install jupyter && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
