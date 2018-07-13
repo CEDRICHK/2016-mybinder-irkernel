@@ -11,14 +11,11 @@ ENV NB_USER jovyan
 ENV NB_UID 1000
 ENV HOME /home/${NB_USER}
 
-RUN adduser --disabled-password \
-    --gecos "Default user" \
-    --uid ${NB_UID} \
-    ${NB_USER}
+WORKDIR ${HOME}
 
 COPY . ${HOME}
 USER root
-RUN chown -R ${NB_UID} ${HOME}
+RUN chown -R ${NB_USER} ${HOME}
 USER ${NB_USER}
 
-CMD ["jupyter", "notebook", "--ip", "0.0.0.0"]
+CMD jupyter notebook --ip 0.0.0.0
