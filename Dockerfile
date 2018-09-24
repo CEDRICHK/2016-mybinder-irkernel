@@ -2,7 +2,7 @@ FROM rocker/tidyverse:3.4.2
 
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
-    apt-get -y install python2.7-pip && \
+    apt-get -y install python2.7, pip && \
     pip install jupyter && \
     apt-get purge && \
     apt-get clean && \
