@@ -1,3 +1,15 @@
+FROM centos:centos7
+MAINTAINER ome-devel@lists.openmicroscopy.org.uk
+
+RUN yum -y -q install bzip2
+RUN curl -s -o /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda2-4.3.11-Linux-x86_64.sh && \
+    [[ $(md5sum /tmp/miniconda.sh) == 'd573980fe3b5cdf80485add2466463f5  /tmp/miniconda.sh' ]] && \
+    sh /tmp/miniconda.sh -b -p /opt/conda && \
+    rm /tmp/miniconda.sh
+
+RUN /opt/conda/bin/conda config --add channels bioconda && \
+/opt/conda/bin/conda install -q python-omero
+
 FROM rocker/tidyverse:3.4.2
 
 #pip3 install --no-cache-dir notebook==5.2 && \
