@@ -14,10 +14,16 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
     
-RUN useradd omero
-WORKDIR /home/omero
+ARG OMERO_VERSION=latest
+
 USER omero
-RUN omego download python --ice 3.6 --sym OMERO.py
+WORKDIR /home/omero
+RUN omego download python --release $OMERO_VERSION && \
+        rm OMERO.py-*.zip && \
+        ln -s OMERO.py-*/ OMERO.py
+
+# Set the default command to run when starting the container
+ENTRYPOINT ["/home/omero/OMERO.py/bin/omero"]
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
