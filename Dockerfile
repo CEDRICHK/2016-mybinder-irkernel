@@ -1,24 +1,26 @@
-FROM centos:centos7
-MAINTAINER ome-devel@lists.openmicroscopy.org.uk
-
-RUN yum -y -q install bzip2
-RUN curl -s -o /tmp/miniconda.sh https://repo.continuum.io/miniconda/Miniconda2-4.3.11-Linux-x86_64.sh && \
-    [[ $(md5sum /tmp/miniconda.sh) == 'd573980fe3b5cdf80485add2466463f5  /tmp/miniconda.sh' ]] && \
-    sh /tmp/miniconda.sh -b -p /opt/conda && \
-    rm /tmp/miniconda.sh
-
-RUN /opt/conda/bin/conda config --add channels bioconda && \
-/opt/conda/bin/conda install -q python-omero
-
 FROM rocker/tidyverse:3.4.2
 
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
     apt-get -y install python2.7 python-pip && \
+    apt-get -y install python-dev build-essential && \
+    apt-get -y install db5.3-util && \
+    apt-get -y install libssl-dev libbz2-dev libmcpp-dev libdb++-dev libdb-dev && \
+    apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 5E6DA83306132997
+    apt-add-repository "deb http://zeroc.com/download/apt/ubuntu`lsb_release -rs` stable main" && \
+    apt-get update && \
+    apt-get -y install zeroc-ice-all-runtime && \
+    pip install "zeroc-ice>3.5,<3.7" && \
     pip install jupyter && \
+    pip install omego && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+    
+RUN useradd omero
+WORKDIR /home/omero
+USER omero
+RUN omego download python --ice 3.6 --sym OMERO.py
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
