@@ -1,29 +1,40 @@
 FROM rocker/tidyverse:3.4.2
 
+# update 
+ENV DEBIAN_FRONTEND noninteractive 
+RUN apt-get update -qq && apt-get dist-upgrade -y
+
+RUN apt-get install -y \
+  build-essential \
+	wget \
+	bzip2 \
+	ca-certificates \
+	libglib2.0-0 \
+	libxext6 \
+	libsm6 \
+	libxrender1 \
+	git \
+	mercurial \
+	subversion
+
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
     apt-get -y install python2.7 python-pip && \
-    apt-get -y install python-dev build-essential && \
-    apt-get -y install db5.3-util && \
-    apt-get -y install libssl-dev libbz2-dev libmcpp-dev libdb++-dev libdb-dev && \
-    apt-get -y install zeroc-ice-all-runtime && \
-    pip install "zeroc-ice>3.5,<3.7" && \
     pip install jupyter && \
-    pip install omego && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-    
-ARG OMERO_VERSION=latest
 
-USER omero
-WORKDIR /home/omero
-RUN omego download python --release $OMERO_VERSION && \
-        rm OMERO.py-*.zip && \
-        ln -s OMERO.py-*/ OMERO.py
+# download and install Miniconda 
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+  wget --quiet https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
+	/bin/bash /Miniconda-latest-Linux-x86_64.sh -b -p /opt/conda && \
+	rm -rf /Miniconda-latest-Linux-x86_64.sh
+# set path to point to conda 
+ENV PATH /opt/conda/bin:$PATH
 
-# Set the default command to run when starting the container
-ENTRYPOINT ["/home/omero/OMERO.py/bin/omero"]
+RUN /opt/conda/bin/conda config --add channels bioconda && \
+/opt/conda/bin/conda install -q python-omero
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
