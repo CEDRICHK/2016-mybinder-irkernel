@@ -36,6 +36,10 @@ ENV PATH /opt/conda/bin:$PATH
 RUN /opt/conda/bin/conda config --add channels bioconda && \
 /opt/conda/bin/conda install -q python-omero
 
+ENV LANG C.UTF-8 
+ENTRYPOINT [ "/usr/bin/tini", "--" ]
+CMD [ "/bin/bash" ]
+
 ENV NB_USER rstudio
 ENV NB_UID 1000
 ENV HOME /home/rstudio
