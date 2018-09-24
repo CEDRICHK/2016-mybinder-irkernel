@@ -2,8 +2,8 @@ FROM rocker/tidyverse:3.4.2
 
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
-    apt-get -y install python3-pip && \
-    pip3 install jupyter && \
+    apt-get -y install python2.7-pip && \
+    pip install jupyter && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
@@ -16,7 +16,7 @@ WORKDIR ${HOME}
 USER ${NB_USER}
 
 # Set up R Kernel for Jupyter
-RUN R --quiet -e "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))"
+# RUN R --quiet -e "install.packages(c('repr', 'IRdisplay', 'evaluate', 'crayon', 'pbdZMQ', 'devtools', 'uuid', 'digest'))"
 RUN R --quiet -e "devtools::install_github('IRkernel/IRkernel')"
 RUN R --quiet -e "IRkernel::installspec()"
 
