@@ -1,22 +1,5 @@
 FROM rocker/tidyverse:3.4.2
 
-# update 
-ENV DEBIAN_FRONTEND noninteractive 
-RUN apt-get update -qq && apt-get dist-upgrade -y
-
-RUN apt-get install -y \
-  build-essential \
-	wget \
-	bzip2 \
-	ca-certificates \
-	libglib2.0-0 \
-	libxext6 \
-	libsm6 \
-	libxrender1 \
-	git \
-	mercurial \
-	subversion
-
 #pip3 install --no-cache-dir notebook==5.2 && \
 RUN apt-get update && \
     apt-get -y install python2.7 python-pip && \
@@ -24,21 +7,6 @@ RUN apt-get update && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-# download and install Miniconda 
-RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
-  wget --quiet https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
-	/bin/bash /Miniconda-latest-Linux-x86_64.sh -b -p /opt/conda && \
-	rm -rf /Miniconda-latest-Linux-x86_64.sh
-# set path to point to conda 
-ENV PATH /opt/conda/bin:$PATH
-
-RUN /opt/conda/bin/conda config --add channels bioconda && \
-/opt/conda/bin/conda install -q python-omero
-
-ENV LANG C.UTF-8 
-ENTRYPOINT [ "/usr/bin/tini", "--" ]
-CMD [ "/bin/bash" ]
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
@@ -62,3 +30,5 @@ USER ${NB_USER}
 RUN if [ -f install.r ]; then R --quiet -f install.r; fi
 
 CMD ["jupyter", "notebook", "--port=8888", "--ip=0.0.0.0"]
+
+FROM thephilross/docker-bioconda
