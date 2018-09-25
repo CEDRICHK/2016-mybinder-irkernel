@@ -8,12 +8,13 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# download and install Miniconda RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
+# download and install Miniconda 
+RUN echo 'export PATH=/opt/conda/bin:$PATH' > /etc/profile.d/conda.sh && \
   wget --quiet https://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
 	/bin/bash /Miniconda-latest-Linux-x86_64.sh -b -p /opt/conda && \
 	rm -rf /Miniconda-latest-Linux-x86_64.sh
-# set path to point to conda 
 
+# set path to point to conda 
 ENV PATH /opt/conda/bin:$PATH
 
 RUN conda config --add channels r && \
