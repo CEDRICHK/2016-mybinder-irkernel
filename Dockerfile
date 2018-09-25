@@ -29,6 +29,4 @@ USER ${NB_USER}
 # Run install.r if it exists
 RUN if [ -f install.r ]; then R --quiet -f install.r; fi
 
-FROM thephilross/bioconda
-
 CMD ["jupyter", "notebook", "--port=8888", "--ip=0.0.0.0"]
