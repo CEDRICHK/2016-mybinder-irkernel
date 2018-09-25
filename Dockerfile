@@ -1,3 +1,4 @@
+FROM thephilross/bioconda
 FROM rocker/tidyverse:3.4.2
 
 #pip3 install --no-cache-dir notebook==5.2 && \
@@ -7,6 +8,8 @@ RUN apt-get update && \
     apt-get purge && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+    
+RUN /opt/conda/bin/conda install -q python-omero
 
 ENV NB_USER rstudio
 ENV NB_UID 1000
