@@ -11,6 +11,5 @@ RUN apt-get install -y libzmq3-dev \
 RUN conda config --add channels r
 RUN conda install -y r-base=3.2.2 r-essentials=1.1 
 RUN conda config --add channels bioconda
-RUN conda install -y bioconductor-deseq 
 
 USER main
