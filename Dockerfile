@@ -31,4 +31,4 @@ RUN if [ -f install.r ]; then R --quiet -f install.r; fi
 
 CMD ["jupyter", "notebook", "--port=8888", "--ip=0.0.0.0"]
 
-FROM thephilross/docker-bioconda
+FROM thephilross/bioconda
